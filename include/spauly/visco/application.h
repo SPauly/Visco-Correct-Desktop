@@ -53,19 +53,19 @@ class Application {
   void CalculatorView() {};
 
   /// @brief Configures the window layout.
-  void ConfigWindow() {};
+  void ConfigWindow();
 
   /// @brief Configures the style of the application.
-  void SetStyle() {};
+  void SetStyle();
 
   /// @brief Enables dark mode.
-  void DarkMode() {};
+  void DarkMode();
 
   /// @brief Enables light mode.
-  void LightMode() {};
+  void LightMode();
 
   /// @brief Displays a help marker.
-  void HelpMarker(const char *description, const char *marker = nullptr) {};
+  void HelpMarker(const char *description, const char *marker = nullptr);
 
  private:
   // config
