@@ -28,10 +28,12 @@ namespace visco {
 /// system.
 class Application {
  public:
-  Application();
+  Application() = default;
   ~Application();
 
   /// @brief Initializes the style as well as first layout of the application.
+  /// This should be called before the main loop and after the Imgui context has
+  /// been created.
   /// @return Returns true if the initialization was successful. False incase of
   /// an error.
   bool Init();
@@ -45,23 +47,25 @@ class Application {
   bool Render();
 
  private:
-  /// @brief Configures the window layout.
-  void ConfigWindow();
-
-  /// @brief Configures the style of the application.
-  void SetStyle();
-
   /// @brief Displays the menu bar.
   void MenuBar();
 
+  void CalculatorView() {};
+
+  /// @brief Configures the window layout.
+  void ConfigWindow() {};
+
+  /// @brief Configures the style of the application.
+  void SetStyle() {};
+
   /// @brief Enables dark mode.
-  void DarkMode();
+  void DarkMode() {};
 
   /// @brief Enables light mode.
-  void LightMode();
+  void LightMode() {};
 
   /// @brief Displays a help marker.
-  void HelpMarker(const char *description, const char *marker = nullptr);
+  void HelpMarker(const char *description, const char *marker = nullptr) {};
 
  private:
   // config
@@ -71,6 +75,8 @@ class Application {
 
   // internal use
   bool submitting_feedback_ = false;
+  ImGuiIO *io_ = nullptr;
+  ImGuiViewport *viewport_;
 
   // Appearence
   const int display_w_ = 445;

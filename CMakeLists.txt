@@ -83,14 +83,24 @@ endif()
 ### Build ViscosityCorrectCore
 #####################################################
 
+add_subdirectory(third_party/ViscoCorrectCore)
+
 #####################################################
 ### Build ViscosityCorrectDesktop
 #####################################################
 
+set(VCD_SRC 
+    "src/application.cpp"
+)
+
 add_executable(Visco-Correct-Desktop
+    ${VCD_SRC}
     "src/directx12_main.cpp"
 )
 
-add_dependencies(Visco-Correct-Desktop imgui)
+add_dependencies(Visco-Correct-Desktop imgui ViscoCorrectCore)
 
-target_link_libraries(Visco-Correct-Desktop PRIVATE imgui)
+target_include_directories(Visco-Correct-Desktop PRIVATE
+    "${PROJECT_SOURCE_DIR}/include"
+)
+target_link_libraries(Visco-Correct-Desktop PRIVATE ViscoCorrectCore imgui)
