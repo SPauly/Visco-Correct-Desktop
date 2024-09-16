@@ -34,6 +34,7 @@ bool Application::Init() {
 
   // Set the style
   ConfigWindow();
+  SetStyle();
 
   viewport_ = ImGui::GetMainViewport();
 
@@ -47,9 +48,6 @@ void Application::Shutdown() {
 }
 
 bool Application::Render() {
-  // We need a dockspace for our app layout
-  ImGui::DockSpaceOverViewport(0, viewport_);
-
   // Render all layers
 
   MenuBar();
@@ -64,8 +62,7 @@ void Application::MenuBar() {
       ImGui::EndMenu();
     }
     if (ImGui::BeginMenu("View")) {
-      if (ImGui::MenuItem("Toggle Dark/Light mode [not impl]", "",
-                          &use_dark_mode))
+      if (ImGui::MenuItem("Toggle Dark/Light mode", "", &use_dark_mode))
         SetStyle();
       if (ImGui::MenuItem("Show Graph [beta]", "STRG + G", &show_graph_)) {
         if (show_graph_) {
@@ -95,7 +92,8 @@ void Application::MenuBar() {
   }
 }
 
-void Application::HelpMarker(const char *description, const char *marker) {
+void Application::HelpMarker(const char *description,
+                             const char *marker) const {
   ImGui::TextDisabled((marker) ? marker : "(?)");
   if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort)) {
     ImGui::BeginTooltip();
@@ -103,6 +101,20 @@ void Application::HelpMarker(const char *description, const char *marker) {
     ImGui::TextUnformatted(description);
     ImGui::PopTextWrapPos();
     ImGui::EndTooltip();
+  }
+}
+
+void Application::HyperLink(const char *link, const char *marker) const {
+  ImGui::TextDisabled((marker) ? marker : link);
+  if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort)) {
+    ImGui::BeginTooltip();
+    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+    ImGui::TextUnformatted(link);
+    ImGui::PopTextWrapPos();
+    ImGui::EndTooltip();
+  }
+  if (ImGui::IsItemClicked()) {
+    // Open the browser
   }
 }
 
@@ -119,6 +131,40 @@ void Application::ConfigWindow() {
 
 void Application::SetStyle() {
   return (use_dark_mode) ? DarkMode() : LightMode();
+}
+
+void Application::Disclaimer() {
+  ImGui::Text("");
+  ImGui::Text("                    !!! DISCLAIMER !!!");
+  ImGui::Text("This software currently is purely experimental and all ");
+  ImGui::Text("calculated values should be verified manually. ViscoCorrect");
+  ImGui::Text("uses a graphical approach based on ");
+  ImGui::SameLine();
+  HyperLink(
+      "https:\\\\www.researchgate.net\\figure\\The-graph-obtained-by-the-"
+      "American-Institute-of-hydraulics_fig1_335209726",
+      "this graph");
+  ImGui::SameLine();
+  ImGui::Text(" obtained by");
+  ImGui::Text("the American Institute of Hydraulics.");
+  ImGui::Text(
+      "Note that the used standard is deprecated! The HI advises only ");
+  ImGui::Text("using the latest ");
+  ImGui::SameLine();
+  HyperLink(
+      "https:\\\\www.pumps.org\\what-we-do\\standards\\?pumps-search-product=9."
+      "6.7",
+      "ANSI/HI 9.6.7 Standard");
+  ImGui::SameLine();
+  ImGui::Text("!");
+  ImGui::Text("Use at your own risk.");
+  ImGui::Text("");
+  ImGui::Text("Please ");
+  ImGui::SameLine();
+  if (ImGui::SmallButton("provide feedback")) submitting_feedback_ = true;
+  ImGui::SameLine();
+  ImGui::Text(" in case the calculated values are");
+  ImGui::Text("incorrect. Thank you :)");
 }
 
 void Application::LightMode() {

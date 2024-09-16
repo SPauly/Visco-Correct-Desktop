@@ -65,7 +65,18 @@ class Application {
   void LightMode();
 
   /// @brief Displays a help marker.
-  void HelpMarker(const char *description, const char *marker = nullptr);
+  /// @param description The description of the help marker.
+  /// @param marker The marker to display.
+  void HelpMarker(const char *description, const char *marker = nullptr) const;
+
+  /// @brief At the moment hyperlink simply displays the link as Helpmarker but
+  /// this should open the browser in the future
+  /// @param link url to open
+  /// @param marker Text displayed as hyperlink
+  void HyperLink(const char *link, const char *marker = nullptr) const;
+
+  /// @brief Displays the disclaimer regarding the use of the software.
+  void Disclaimer();
 
  private:
   // config
