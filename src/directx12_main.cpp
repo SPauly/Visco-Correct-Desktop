@@ -69,7 +69,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char**) {
   // Create application window
-  // ImGui_ImplWin32_EnableDpiAwareness();
+  ImGui_ImplWin32_EnableDpiAwareness();
   WNDCLASSEXW wc = {sizeof(wc),
                     CS_CLASSDC,
                     WndProc,
@@ -189,6 +189,24 @@ int main(int, char**) {
     ImGui_ImplDX12_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+
+    // Get the mouse position
+    ImVec2 mouse_pos = ImGui::GetMousePos();
+
+    // Get the ImGui draw list
+    ImDrawList* draw_list = ImGui::GetForegroundDrawList();
+
+    // Define the size of the square
+    float square_size = 20.0f;
+
+    // Define the color of the square
+    ImU32 square_color = IM_COL32(255, 0, 0, 255);  // Red color
+
+    // Render the square at the mouse position
+    draw_list->AddRectFilled(
+        ImVec2(mouse_pos.x - square_size / 2, mouse_pos.y - square_size / 2),
+        ImVec2(mouse_pos.x + square_size / 2, mouse_pos.y + square_size / 2),
+        square_color);
 
     // 1. Show the big demo window (Most of the sample code is in
     // ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear
