@@ -15,31 +15,38 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 // Contact via <https://github.com/SPauly/Visco-Correct-Desktop>
-#ifndef SPAULY_VISCO_UTILS_LAYER_H
-#define SPAULY_VISCO_UTILS_LAYER_H
+#ifndef SPAULY_VISCO_CALCULATOR_VIEW_H
+#define SPAULY_VISCO_CALCULATOR_VIEW_H
 
 #include <imgui.h>
 
+#include "spauly/visco/utils/layer.h"
+#include "spauly/vccore/calculator.h"
+#include "spauly/vccore/data.h"
+
 namespace spauly {
 namespace visco {
-namespace utils {
 
-/// @brief The base class for all layers.
-class Layer {
+class CalculatorView : public utils::Layer {
  public:
-  Layer() = default;
-  virtual ~Layer() = default;
+  CalculatorView() = default;
+  ~CalculatorView() = default;
 
-  virtual void OnAttach() {};
-  virtual void OnDetach() {};
+  virtual void OnUIRender(const ImGuiWindowFlags& flags) override;
 
-  virtual void OnUIRender(const ImGuiWindowFlags& flags) {};
+ protected:
+  /// @brief Displays the disclaimer regarding the use of the software.
+  void Disclaimer();
+
+ private:
+  vccore::Calculator calculator_;
+  vccore::Parameters params_;
+  vccore::Units units_;
+  vccore::CorrectionFactors result_;
 };
-
-}  // namespace utils
 
 }  // namespace visco
 
 }  // namespace spauly
 
-#endif  // SPAULY_VISCO_UTILS_LAYER_H
+#endif  // SPAULY_VISCO_CALCULATOR_VIEW_H

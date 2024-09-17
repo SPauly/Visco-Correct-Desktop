@@ -20,6 +20,8 @@
 
 #include <imgui.h>
 
+#include "spauly/visco/utils/layerstack.h"
+
 namespace spauly {
 namespace visco {
 
@@ -64,20 +66,6 @@ class Application {
   /// @brief Enables light mode.
   void LightMode();
 
-  /// @brief Displays a help marker.
-  /// @param description The description of the help marker.
-  /// @param marker The marker to display.
-  void HelpMarker(const char *description, const char *marker = nullptr) const;
-
-  /// @brief At the moment hyperlink simply displays the link as Helpmarker but
-  /// this should open the browser in the future
-  /// @param link url to open
-  /// @param marker Text displayed as hyperlink
-  void HyperLink(const char *link, const char *marker = nullptr) const;
-
-  /// @brief Displays the disclaimer regarding the use of the software.
-  void Disclaimer();
-
  private:
   // config
   bool use_open_workspace = false;
@@ -105,6 +93,8 @@ class Application {
   ImVec4 clear_color_ = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
   ImVec4 *colors_ = nullptr;
   ImGuiStyle *style_ = nullptr;
+
+  utils::LayerStack layer_stack_;
 };
 
 }  // namespace visco
