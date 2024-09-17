@@ -30,7 +30,7 @@ namespace visco {
 class CalculatorView : public utils::Layer {
  public:
   CalculatorView() = default;
-  ~CalculatorView() = default;
+  virtual ~CalculatorView() = default;
 
   virtual void OnUIRender(const ImGuiWindowFlags& flags) override;
 

@@ -33,7 +33,7 @@ class LayerStack {
   ~LayerStack() { clear(); };
 
   template <typename T>
-  void PushLayer() {
+  void PushLayerT() {
     static_assert(std::is_base_of<Layer, T>::value,
                   "Pushed type is not subclass of Layer!");
     layers_.emplace(layers_.begin() + layer_insert_index_,

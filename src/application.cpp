@@ -17,6 +17,10 @@
 // Contact via <https://github.com/SPauly/Visco-Correct-Desktop>
 #include "spauly/visco/application.h"
 
+#include <memory>
+
+#include "spauly/visco/calculator_view.h"
+
 namespace spauly {
 namespace visco {
 
@@ -39,19 +43,20 @@ bool Application::Init() {
   viewport_ = ImGui::GetMainViewport();
 
   // Register the layers
+  layer_stack_.PushLayerT<CalculatorView>();
 
   return true;
 }
 
-void Application::Shutdown() {
-  // Shutdown all layers
-}
+void Application::Shutdown() {}
 
 bool Application::Render() {
   // Render all layers
+  for (const auto& layer : layer_stack_) {
+    layer->OnUIRender(current_flags_);
+  }
 
   MenuBar();
-  CalculatorView();
   return true;
 }
 
@@ -74,10 +79,13 @@ void Application::MenuBar() {
 
       if (ImGui::MenuItem("Enable open workspace [beta]", "STRG+O",
                           &use_open_workspace)) {
-        if (use_open_workspace)
+        if (use_open_workspace) {
+          current_flags_ = open_workspace_flags_;
           ;  // Forward the flags to the graph
-        else
+        } else {
+          current_flags_ = closed_workspace_flags_;
           ;  // Forward the flags to the graph
+        }
       }
       ImGui::EndMenu();
     }

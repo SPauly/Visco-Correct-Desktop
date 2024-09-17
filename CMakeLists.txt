@@ -91,6 +91,7 @@ add_subdirectory(third_party/ViscoCorrectCore)
 
 set(VCD_SRC 
     "src/application.cpp"
+    "src/calculator_view.cpp"
 )
 
 add_executable(Visco-Correct-Desktop

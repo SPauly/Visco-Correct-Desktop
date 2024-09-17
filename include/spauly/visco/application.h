@@ -52,8 +52,6 @@ class Application {
   /// @brief Displays the menu bar.
   void MenuBar();
 
-  void CalculatorView() {};
-
   /// @brief Configures the window layout.
   void ConfigWindow();
 
@@ -82,11 +80,12 @@ class Application {
   const int display_h_ = 650;
   const int display_w_offset_graph_ = 445;
   int temp_display_w_, temp_display_h_;  // for temporary use
-  const ImGuiWindowFlags closed_workspace_flags_ = ImGuiWindowFlags_NoCollapse |
-                                                   ImGuiWindowFlags_NoMove |
-                                                   ImGuiWindowFlags_NoResize;
-  const ImGuiWindowFlags open_workspace_flags_ =
+  ImGuiWindowFlags closed_workspace_flags_ = ImGuiWindowFlags_NoCollapse |
+                                             ImGuiWindowFlags_NoMove |
+                                             ImGuiWindowFlags_NoResize;
+  ImGuiWindowFlags open_workspace_flags_ =
       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+  ImGuiWindowFlags &current_flags_ = closed_workspace_flags_;
   const float rounding_ = 2.0;
 
   // Style
