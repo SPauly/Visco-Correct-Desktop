@@ -56,7 +56,7 @@ void CalculatorView::OnUIRender(const ImGuiWindowFlags &flags) {
   ImGui::PopItemWidth();
 
   if (ImGui::Button("Calculate", ImVec2(100, 0))) {
-    calculator_.Calculate(params_, units_);
+    result_ = calculator_.Calculate(params_, units_);
   }
 
   ImGui::Separator();
@@ -76,22 +76,30 @@ void CalculatorView::OnUIRender(const ImGuiWindowFlags &flags) {
     }
   }
 
-  ImGui::Text("Correction eta: %.3f", result_.eta);
-  ImGui::Text("Correction Q: %.3f", result_.q);
-  ImGui::Text("Correction H:");
+  ImGui::Separator();
+  ImGui::SetCursorPosX(
+      (ImGui::GetWindowWidth() - ImGui::CalcTextSize("Correction factors:").x) *
+      0.5f);
+  ImGui::Text("Correction factors:\n");
+
+  ImGui::Text("eta: %.2f", result_.eta);
+  ImGui::Text("Q: %.2f", result_.q);
+  ImGui::Text("H:");
   ImGui::Indent();
-  ImGui::Text("0.6 x Q_opt: %.3f", result_.h.at(0));
-  ImGui::Text("0.8 x Q_opt: %.3f", result_.h.at(1));
-  ImGui::Text("1.0 x Q_opt: %.3f", result_.h.at(2));
-  ImGui::Text("1.2 x Q_opt: %.3f", result_.h.at(3));
+  ImGui::Text("0.6 x Q_opt: %.2f", result_.h.at(0));
+  ImGui::Text("0.8 x Q_opt: %.2f", result_.h.at(1));
+  ImGui::Text("1.0 x Q_opt: %.2f", result_.h.at(2));
+  ImGui::Text("1.2 x Q_opt: %.2f", result_.h.at(3));
   ImGui::Unindent();
 
+  ImGui::Dummy(ImVec2(0.0f, 40.0f));  // Add some vertical space
   Disclaimer();
 
   ImGui::End();
 }
 
 void CalculatorView::Disclaimer() {
+  ImGui::Separator();
   ImGui::Text("");
   ImGui::Text("                    !!! DISCLAIMER !!!");
   ImGui::Text("This software currently is purely experimental and all ");
