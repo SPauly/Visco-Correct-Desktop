@@ -39,10 +39,6 @@ jobs:
       with:
         arch: x64
 
-    - name: Install 7zip on Linux
-      if: startsWith(matrix.config.os, 'ubuntu')
-      run: sudo apt-get install -y p7zip-full
-
     - name: Set reusable strings
       id: strings
       shell: bash
@@ -59,8 +55,9 @@ jobs:
 
     - name: Compress Install
       run: |
-        7z a -tzip ${{ steps.strings.outputs.build-output-dir }}/install/Visco-Correct-Desktop-Windows-x64.zip ${{ steps.strings.outputs.build-output-dir }}/install/*
-
+          cd ${{ steps.strings.outputs.build-output-dir }}/install
+          7z a -tzip Visco-Correct-Desktop-Windows-x64.zip *
+    
     - name: Upload Artifacts
       if: success()
       uses: actions/upload-artifact@v3
