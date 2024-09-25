@@ -43,7 +43,7 @@ bool Application::Init() {
   viewport_ = ImGui::GetMainViewport();
 
   // Register the layers
-  layer_stack_.PushLayerT<CalculatorView>();
+  layer_stack_.PushLayer(std::make_shared<CalculatorView>());
 
   return true;
 }
