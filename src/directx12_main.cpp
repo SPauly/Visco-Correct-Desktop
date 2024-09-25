@@ -295,7 +295,7 @@ bool CreateDeviceD3D(HWND hWnd) {
   {
     D3D12_DESCRIPTOR_HEAP_DESC desc = {};
     desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-    desc.NumDescriptors = 1;
+    desc.NumDescriptors = 2;
     desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     if (g_pd3dDevice->CreateDescriptorHeap(
             &desc, IID_PPV_ARGS(&g_pd3dSrvDescHeap)) != S_OK)
