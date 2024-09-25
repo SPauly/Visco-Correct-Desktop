@@ -42,6 +42,8 @@ set(VCD_INSTALL_INCLUDEDIR "include" CACHE STRING "Installation directory for he
 set(VCD_INSTALL_CMAKEDIR "lib/cmake/Visco-Correct-Desktop" CACHE STRING "Installation directory for cmake config files")
 set(VCD_INSTALL_SHAREDIR "share/Visco-Correct-Desktop" CACHE STRING "Installation directory for root certificates")
 
+set(vcc_INSTALL OFF CACHE BOOL "Disable installing ViscoCorrectCore" FORCE)
+
 
 #####################################################
 ### Build imgui 
