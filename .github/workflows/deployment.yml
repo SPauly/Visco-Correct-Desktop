@@ -1,0 +1,75 @@
+name: Deploy to GitHub Releases
+
+on:
+  push:
+    branches: [ "main" ]
+    tags:
+      - "v*.*.*"
+
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        config:
+          - WIN_ARCH: "x64"
+            os: windows-latest
+            lib_dir: "C:\\Libraries"
+            generators: "Visual Studio 17 2022"
+            build_type: "Release"
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true # Ensures submodules are checked out
+
+    - name: Print env
+      run: |
+        echo github.event.action: ${{ github.event.action }}
+        echo github.event_name: ${{ github.event_name }}
+        echo github.ref: ${{ github.ref }}
+        echo github.workspace: ${{ github.workspace }}
+
+    - name: Install MSVC on Windows
+      if: startsWith(matrix.config.os, 'windows')
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
+    - name: Install 7zip on Linux
+      if: startsWith(matrix.config.os, 'ubuntu')
+      run: sudo apt-get install -y p7zip-full
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        echo "source-dir=${{ github.workspace }}" >> "$GITHUB_OUTPUT"
+    
+    - name: Build Visco-Correct-Desktop
+      run: |
+        mkdir build && cd build
+        cmake .. -G "${{ matrix.config.generators }}" -DCMAKE_BUILD_TYPE=Release
+        cmake --build . --config Release -j 6
+        cmake --install . --config Release 
+
+    - name: Compress Install
+      run: |
+        7z a -tzip ${{ steps.strings.outputs.build-output-dir }}/install/Visco-Correct-Desktop-Windows-x64.zip ${{ steps.strings.outputs.build-output-dir }}/install/*
+
+    - name: Upload Artifacts
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Visco-Correct-Desktop-Windows-x64
+        path: ${{ steps.strings.outputs.build-output-dir }}/install/Visco-Correct-Desktop-Windows-x64.zip
+
+    - name: Upload release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v0.1.13
+      with:
+        files: ${{ steps.strings.outputs.build-output-dir }}/install/Visco-Correct-Desktop-Windows-x64.zip
