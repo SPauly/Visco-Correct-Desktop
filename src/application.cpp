@@ -69,7 +69,7 @@ void Application::MenuBar() {
     if (ImGui::BeginMenu("View")) {
       if (ImGui::MenuItem("Toggle Dark/Light mode", "", &use_dark_mode))
         SetStyle();
-      if (ImGui::MenuItem("Show Graph [beta]", "STRG + G", &show_graph_)) {
+      if (ImGui::MenuItem("Show Graph", "STRG + G", &show_graph_)) {
         if (show_graph_) {
           // Resize window and show graph
         } else {
@@ -77,8 +77,7 @@ void Application::MenuBar() {
         }
       }
 
-      if (ImGui::MenuItem("Enable open workspace [beta]", "STRG+O",
-                          &use_open_workspace)) {
+      if (ImGui::MenuItem("Enable open workspace", "", &use_open_workspace)) {
         if (use_open_workspace) {
           current_flags_ = open_workspace_flags_;
           ;  // Forward the flags to the graph

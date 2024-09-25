@@ -30,7 +30,6 @@ set(VCD_SOVERSION 0)
 
 # Set the build options
 option(VCD_BUILD_TESTS "Build tests for Visco-Correct-Desktop" ON)
-option(VCD_BUILD_EXAMPLES "Build examples for Visco-Correct-Desktop" OFF)
 option(VCD_DIRECTX12 "Use DirectX for rendering" ON)
 
 # Set the installation options (default to ON if building as a standalone project)
